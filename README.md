@@ -17,10 +17,11 @@
     - [ID Selectors](#id-selectors)
     - [JavaScript hooks](#javascript-hooks)
     - [Border](#border)
+    - [Type](#type)
     - [Global Rules](#global-rules)
     - [Important](#important)
     - [Breakpoints](#breakpoints)
-    - [MediaQueries](#mediaqueries)
+    - [Media Queries](#mediaqueries)
 1. [Sass](#sass)
     - [Syntax](#syntax)
     - [Ordering](#ordering-of-property-declarations)
@@ -74,8 +75,45 @@ Properties are what give the selected elements of a rule declaration their style
 ## SCSS Architecture
 
 ### Folder Structure
+A good folder structure for your project looks sth. like this:
+ 
+/style
+|
+| -- global
+|    | -- _all.scss           #import all global scss files here
+|    | -- _animations.scss
+|    | -- _base.scss
+|    | -- _breakpoints.scss
+|    | -- _colors.scss
+|    | -- _layout.scss
+|    | -- _reset.scss
+|    | -- _type.scss
+| -- components
+|    | -- _all.scss           #import all component scss files here
+|    | -- _buttons.scss
+|    | -- _forms.scss
+|    ...
+| -- pages
+|    | -- _all.scss           #import all page scss files here
+|    | -- _buttons.scss
+|    | -- _forms.scss
+|    ...
+-- main.scss #import all all.scss files here
 
-tbd
+Don't worry, we also have a boilerplate to get you started. In general, it's important to distinguish between:
+
+**Global**
+
+All values that are used and shared across pages and components should be declared here: font styles, generic layouts, colors, etc.
+
+**Components**
+
+All reusable components go here: Buttons, Form Elements, Overlays, Tables, etc.
+
+**Pages**
+
+All rule declarations that are tightly tied to one specific page should go here. You can also scope components in these rule declarations for layout specific adjustments. Please do not scope components and states in here, that might be more useful as element modifiers that should be declared within the component rule declarations.
+
 
 ## CSS
 
@@ -210,6 +248,10 @@ Use `0` instead of `none` to specify that a style has no border.
 }
 ```
 
+### Type 
+
+In general, try to avoid mixing px, em, and rem values across the project. Ideally, we use a px baseline value set globally in base.scss and define rem values for all text classes in type.scss. Please refrain from setting font-specific properties in generic rule declarations (e. g. div, span, etc.)
+
 ### Global Rules
 
 Do not apply any properties globally to all divs or child elements of html / body
@@ -229,24 +271,28 @@ Using !important is usually only the last resort — we've all been guilty of us
 
 ### Breakpoints
 
-We should limit the number of breakpoints generally used in a project to the necessary minimum. Breakpoints should always be declared as variables. No more than 5 breakpoints should be used in any given project, special custom breakpoints may only be used in emergencies(!!!) or in controlling e. g. VH media queries, e. g.
+We should limit the number of breakpoints generally used in a project to the necessary minimum. Breakpoints should always be declared as variables. No more than 5 breakpoints should be used in any given project, special custom breakpoints may only be used in emergencies(!) or in controlling e. g. VH media queries
 
 ```scss
 $breakpoint-mobile: 500px;
+$breakpoint-tablet-small: 768px;
 $breakpoint-tablet: 1000px;
-$breakpoint-desktop: 1500px;
+$breakpoint-desktop: 1440px;
+$breakpoint-desktop-large: 1920px;
 ```
 
-### MediaQueries
+### Media Queries
 
 Ideally, we only use max-width media queries in overwrites to reduce the complexity of the code and the number of breakpoints, e. g.
 
 ```scss
 .block {
   width: 60vw;
+  
   @media(max-width: $breakpoint-tablet) {
     width: 80vw;
   }
+  
   @media(max-width: $breakpoint-mobile) {
     width: 90vw;
   }
@@ -312,7 +358,7 @@ Prefer dash-cased variable names (e.g. `$my-variable`) over camelCased or snake_
 
 ### Mixins
 
-Mixins should be used to DRY up your code, add clarity, or abstract complexity--in much the same way as well-named functions. Mixins that accept no arguments shouldn't be used, in this case create generic classes.
+Mixins should be used to DRY up your code, add clarity, or abstract complexity in much the same way as well-named functions. In general, mixins should only be used if they accept argument, otherwise you may want to consider creating generic classes.
 
 ### Extend directive
 
