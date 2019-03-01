@@ -4,41 +4,18 @@
 
 ## Table of Contents
 
-1. [Terminology](#terminology)
-    - [Rule Declaration](#rule-declaration)
-    - [Selectors](#selectors)
-    - [Properties](#properties)
-1. [SCSS Architecture](#scss-architecture)
-    - [Folder Structure](#folder-structure)
-1. [CSS](#css)
-    - [Formatting](#formatting)
-    - [Comments](#comments)
-    - [OOCSS and BEM](#oocss-and-bem)
-    - [ID Selectors](#id-selectors)
-    - [JavaScript hooks](#javascript-hooks)
-    - [Border](#border)
-    - [Global Rules](#global-rules)
-    - [Important](#important)
-    - [Breakpoints](#breakpoints)
-    - [MediaQueries](#mediaqueries)
-1. [Sass](#sass)
-    - [Syntax](#syntax)
-    - [Ordering](#ordering-of-property-declarations)
-    - [Variables](#variables)
-    - [Mixins](#mixins)
-    - [Extend directive](#extend-directive)
-    - [Generic classes](#generic-classes)
-    - [Nested selectors](#nested-selectors)
-1. [License](#license)
+[TOC]
+
 
 ## Terminology
+
 
 ### Rule declaration
 
 A “rule declaration” is the name given to a selector (or a group of selectors) with an accompanying group of properties. Here's an example:
 
 ```css
-.block {
+.listing {
   font-size: 1em;
   line-height: 1.2;
 }
@@ -60,7 +37,7 @@ In a rule declaration, “selectors” are the bits that determine which element
 
 ### Properties
 
-Properties are what give the selected elements of a rule declaration their style. Properties are key-value pairs, and a rule declaration can contain one or more property declarations. Property declarations look like this:
+Finally, properties are what give the selected elements of a rule declaration their style. Properties are key-value pairs, and a rule declaration can contain one or more property declarations. Property declarations look like this:
 
 ```scss
 /* some selector */ {
@@ -69,21 +46,14 @@ Properties are what give the selected elements of a rule declaration their style
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
 
-## SCSS Architecture
-
-### Folder Structure
-
-tbd
 
 ## CSS
 
 ### Formatting
 
 * Use soft tabs (2 spaces) for indentation.
-* Prefer dashes over camelCasing in class names.
-  - Underscores and PascalCasing are okay if you are using BEM (see [OOCSS and BEM](#oocss-and-bem) below).
+* Prefer dashes over camelCasing in class names. In general, we are using the hyphenatedbem convention.
 * Do not use ID selectors.
 * When using multiple selectors in a rule declaration, give each selector its own line.
 * Put a space before the opening brace `{` in rule declarations.
@@ -125,40 +95,39 @@ tbd
 * Prefer line comments (`//` in Sass-land) to block comments.
 * Prefer comments on their own line. Avoid end-of-line comments.
 * Write detailed comments for code that isn't self-documenting:
-  - Leave a generic comment for quick fixes and hacks: "Needs refactoring"
   - Uses of z-index
   - Compatibility or browser-specific hacks
 
 ### BEM
 
-BEM is awesome. Why? That's why:
+We encourage BEM for these reasons:
 
   * It helps create clear, strict relationships between CSS and HTML
   * It helps us create reusable, composable components
   * It allows for less nesting and lower specificity
   * It helps in building scalable stylesheets
 
-**BEM**, or “Block-Element-Modifier”, is a _naming convention_ for classes in HTML and CSS. It was originally developed by Yandex with large codebases and scalability in mind.
+**BEM**, or “Block-Element-Modifier”, is a _naming convention_ for classes in HTML and CSS. It was originally developed by Yandex with large codebases and scalability in mind, and can serve as a solid set of guidelines for implementing OOCSS.
 
-* CSS Trick's [BEM 101](https://css-tricks.com/bem-101/)
-* Harry Roberts' [introduction to BEM](http://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/)
+  * CSS Trick's [BEM 101](https://css-tricks.com/bem-101/)
+  * Harry Roberts' [introduction to BEM](http://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/)
 
 **Example**
 
 ```jsx
 // ListingCard.jsx
 function ListingCard() {
-return (
-  <article class="listing-card listing-card--featured">
+  return (
+    <article class="listing-card listing-card--featured">
 
-    <h1 class="listing-card__title">Adorable 2BR in the sunny Mission</h1>
+      <h1 class="listing-card__title">Adorable 2BR in the sunny Mission</h1>
 
-    <div class="listing-card__content">
-      <p>Vestibulum id ligula porta felis euismod semper.</p>
-    </div>
+      <div class="listing-card__content">
+        <p>Vestibulum id ligula porta felis euismod semper.</p>
+      </div>
 
-  </article>
-);
+    </article>
+  );
 }
 ```
 
@@ -170,9 +139,9 @@ return (
 .listing-card__content { }
 ```
 
-* `.listing-card` is the “block” and represents the higher-level component
-* `.listing-card--featured` is an “element” and represents a descendant of `.ListingCard` that helps compose the block as a whole.
-* `.listing-card__title` is a “modifier” and represents a different state or variation on the `.listing-card` block.
+  * `.ListingCard` is the “block” and represents the higher-level component
+  * `.ListingCard__title` is an “element” and represents a descendant of `.ListingCard` that helps compose the block as a whole.
+  * `.ListingCard--featured` is a “modifier” and represents a different state or variation on the `.ListingCard` block.
 
 ### ID selectors
 
@@ -253,7 +222,6 @@ Ideally, we only use max-width media queries in overwrites to reduce the complex
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
 
 ## Sass
 
@@ -283,7 +251,7 @@ Ideally, we only use max-width media queries in overwrites to reduce the complex
     ```scss
     .btn-green {
       @include transition(background 0.5s ease);
-      background: $color-success;
+      background: green;
       font-weight: bold;  
       // ...
     }
@@ -291,14 +259,13 @@ Ideally, we only use max-width media queries in overwrites to reduce the complex
 
 3. Nested selectors
 
-    Nested selectors, _if necessary_, go last, and nothing goes after them. Add whitespace between your rule declarations and nested selectors, as well as between adjacent nested selectors. Apply the same guidelines as above to your nested selectors.
+    Nested selectors, _if necessary_, go last, and nothing goes after them. Nested selectors should only be used for positioning the element, not for modifying the element itself, which should be done in the original element rule declaration in form of a BEM modifier to make it available globally. Add whitespace between your rule declarations and nested selectors, as well as between adjacent nested selectors. Apply the same guidelines as above to your nested selectors.
 
     ```scss
     .btn {
-      @include transition(background 0.5s ease);
-      background: $color-success;
+      background: green;
       font-weight: bold;
-      
+      @include transition(background 0.5s ease);
 
       .icon {
         margin-right: 10px;
@@ -312,15 +279,11 @@ Prefer dash-cased variable names (e.g. `$my-variable`) over camelCased or snake_
 
 ### Mixins
 
-Mixins should be used to DRY up your code, add clarity, or abstract complexity--in much the same way as well-named functions. Mixins that accept no arguments shouldn't be used, in this case create generic classes.
+Mixins should be used to DRY up your code, add clarity, or abstract complexity--in much the same way as well-named functions. Mixins that accept no arguments can be useful for this, but note that if you are not compressing your payload (e.g. gzip), this may contribute to unnecessary code duplication in the resulting styles.
 
 ### Extend directive
 
 `@extend` should be avoided because it has unintuitive and potentially dangerous behavior, especially when used with nested selectors. Even extending top-level placeholder selectors can cause problems if the order of selectors ends up changing later (e.g. if they are in other files and the order the files are loaded shifts). Gzipping should handle most of the savings you would have gained by using `@extend`, and you can DRY up your stylesheets nicely with mixins.
-
-### Generic classes
-
-Scope of generic classes tbd.
 
 ### Nested selectors
 
@@ -346,19 +309,3 @@ When selectors become this long, you're likely writing CSS that is:
 Again: **never nest ID selectors!**
 
 If you must use an ID selector in the first place (and you should really try not to), they should never be nested. If you find yourself doing this, you need to revisit your markup, or figure out why such strong specificity is needed. If you are writing well formed HTML and CSS, you should **never** need to do this.
-
-**[⬆ back to top](#table-of-contents)**
-
-## License
-
-(The MIT License)
-
-Copyright (c) 2015 Airbnb / 2019 okay bueno
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-**[⬆ back to top](#table-of-contents)**
