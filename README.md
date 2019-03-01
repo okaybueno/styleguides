@@ -21,7 +21,7 @@
     - [Global Rules](#global-rules)
     - [Important](#important)
     - [Breakpoints](#breakpoints)
-    - [Media Queries](#mediaqueries)
+    - [Media Queries](#media-queries)
 1. [Sass](#sass)
     - [Syntax](#syntax)
     - [Ordering](#ordering-of-property-declarations)
