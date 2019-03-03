@@ -71,3 +71,12 @@
     transform: translateY(48px);
     opacity: 0;
 }
+
+// Hardware Acceleration Mixin
+
+@mixin hardware($backface: true, $perspective: 1000) {
+    @if $backface {
+        backface-visibility: hidden;
+    }
+    perspective: $perspective;
+}

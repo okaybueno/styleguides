@@ -22,6 +22,7 @@
     - [Important](#important)
     - [Breakpoints](#breakpoints)
     - [Media Queries](#media-queries)
+    - [z-index](#z-index)
 1. [Sass](#sass)
     - [Syntax](#syntax)
     - [Ordering](#ordering-of-property-declarations)
@@ -164,7 +165,6 @@ All rule declarations that are tightly tied to one specific page should go here.
 * Prefer comments on their own line. Avoid end-of-line comments.
 * Write detailed comments for code that isn't self-documenting:
   - Leave a generic comment for quick fixes and hacks: "Needs refactoring"
-  - Uses of z-index
   - Compatibility or browser-specific hacks
 
 ### BEM
@@ -298,6 +298,10 @@ Ideally, we only use max-width media queries in overwrites to reduce the complex
   }
 }
 ```
+
+### z-index
+
+To keep track of complex z-index hierarchies, please use the predefined z-index function. An usage example can be found in this [Codepen](https://codepen.io/okay_alex/pen/xBVoxV)
 
 **[⬆ back to top](#table-of-contents)**
 

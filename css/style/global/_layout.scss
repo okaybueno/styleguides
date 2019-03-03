@@ -70,6 +70,23 @@ $grid-inner-gutter--desktop: 24px;
     }
 }
 
+
+// z-index hierarchy function
+
+@function z($name) {
+    @if index($z-indexes, $name) {
+        @return (length($z-indexes) - index($z-indexes, $name)) + 1;
+    } @else {
+        @return null;
+    }
+}
+$z-indexes: (
+  // add z-index definitions here once you define them in a rule declaration
+  // e. g. 'modal'
+  // e. g. 'navbar',
+);
+
+
 // Mixins for Margin / Padding
 
 @mixin margin($dtp-t, $dtp-r, $dtp-b, $dtp-l, $tab-t, $tab-r, $tab-b, $tab-l, $mob-t, $mob-r, $mob-b, $mob-l) {
