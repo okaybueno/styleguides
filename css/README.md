@@ -301,7 +301,23 @@ Ideally, we only use max-width media queries in overwrites to reduce the complex
 
 ### z-index
 
-To keep track of complex z-index hierarchies, please use the predefined z-index function. An usage example can be found in this [Codepen](https://codepen.io/okay_alex/pen/xBVoxV)
+To keep track of complex z-index hierarchies, please use the predefined z-index function (function z) which can be found in the layout.scss file. The function should look like this:
+
+```scss
+@function z($name) {
+    @if index($z-indexes, $name) {
+        @return (length($z-indexes) - index($z-indexes, $name)) + 1;
+    } @else {
+        @return null;
+    }
+}
+$z-indexes: (
+  'modal'
+  'navbar',
+)
+```
+
+An usage example can be found in this [Codepen](https://codepen.io/okay_alex/pen/xBVoxV)
 
 **[⬆ back to top](#table-of-contents)**
 
