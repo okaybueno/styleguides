@@ -1,23 +1,27 @@
-button {
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 28px;
+  padding: 6px 24px;
+  border: none;
+  outline: none;
+  border-radius: 20px;
+  cursor: pointer;
 
-}
+  &__primary {
+    @include transition-standard(all, .28s);
+    color: $white;
+    background: $color-brand-primary;
+    will-change: transform;
 
-button-primary {
+    &:hover {
+      opacity: .96;
+      transform: scale(.99);
+    }
 
-  &:hover {
-
+    &--alternate {
+      background: $color-brand-secondary;
+    }
   }
-
-  &--active {
-
-  }
-
-  &--inactive {
-
-  }
-
-}
-
-button-secondary {
-
 }

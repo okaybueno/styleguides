@@ -1,0 +1,135 @@
+// Grid Variables
+$grid-outer-gutter--mobile: 16px;
+$grid-outer-gutter--tablet: 40px;
+$grid-outer-gutter--desktop: 8vw;
+
+$grid-columns--mobile: 6;
+$grid-columns--tablet: 8;
+$grid-columns--desktop: 12;
+
+$grid-inner-gutter--mobile: 12px;
+$grid-inner-gutter--tablet: 20px;
+$grid-inner-gutter--desktop: 24px;
+
+// Generic Grid Wrapper Class
+
+.grid-wrapper {
+    max-width: 100%;
+
+    @media(min-width: calc(#{$breakpoint-desktop-large})) {
+        width: calc(100vw - #{$grid-outer-gutter--desktop} * 2);
+        padding: 0 $grid-outer-gutter--desktop;
+    }
+
+    @media(max-width: $breakpoint-desktop-large) {
+        width: calc(100vw - #{$grid-outer-gutter--desktop} * 2);
+        padding: 0 $grid-outer-gutter--desktop;
+    }
+
+    @media(max-width: $breakpoint-tablet) {
+        width: calc(100vw - #{$grid-outer-gutter--tablet} * 2);
+        padding: 0 $grid-outer-gutter--tablet;
+
+    }
+
+    @media(max-width: $breakpoint-mobile) {
+        width: calc(100vw - #{$grid-outer-gutter--mobile} * 2);
+        padding: 0 $grid-outer-gutter--mobile;
+    }
+}
+
+// Grid Element Mixin
+
+@mixin grid-element($grid-element-columns-mobile, $grid-margin-mobile, $grid-element-columns-tablet, $grid-margin-tablet, $grid-element-columns-desktop, $grid-margin-desktop, $element-padding) {
+    max-width: 100%;
+    width: calc((100vw - #{$grid-outer-gutter--desktop} * 2 - #{$grid-inner-gutter--desktop} * (#{$grid-columns--desktop} - 1)) / #{$grid-columns--desktop} * #{$grid-element-columns-desktop} + #{$grid-inner-gutter--desktop} * (#{$grid-element-columns-desktop} - 1) - #{$element-padding}px * 2);
+    margin-right: $grid-inner-gutter--desktop;
+
+    &:nth-child(#{$grid-margin-desktop}n) {
+        margin-right: 0;
+    }
+
+    @media(max-width: $breakpoint-tablet) {
+        width: calc((100vw - #{$grid-outer-gutter--tablet} * 2 - #{$grid-inner-gutter--tablet} * (#{$grid-columns--tablet} - 1)) / #{$grid-columns--tablet} * #{$grid-element-columns-tablet} + #{$grid-inner-gutter--tablet} * (#{$grid-element-columns-tablet} - 1) - #{$element-padding}px * 2);
+
+        margin-right: $grid-inner-gutter--tablet;
+
+        &:nth-child(#{$grid-margin-tablet}n) {
+            margin-right: 0;
+        }
+    }
+
+    @media(max-width: $breakpoint-mobile) {
+        width: calc((100vw - #{$grid-outer-gutter--mobile} * 2 - #{$grid-inner-gutter--mobile} * (#{$grid-columns--mobile} - 1)) / #{$grid-columns--mobile} * #{$grid-element-columns-mobile} + #{$grid-inner-gutter--mobile} * (#{$grid-element-columns-mobile} - 1) - #{$element-padding}px * 2);
+
+        margin-right: $grid-inner-gutter--mobile;
+
+        &:nth-child(#{$grid-margin-mobile}n) {
+            margin-right: 0;
+        }
+    }
+}
+
+// Mixins for Margin / Padding
+
+@mixin margin($dtp-t, $dtp-r, $dtp-b, $dtp-l, $tab-t, $tab-r, $tab-b, $tab-l, $mob-t, $mob-r, $mob-b, $mob-l) {
+  margin: #{$dtp-t}px #{$dtp-r}px #{$dtp-b}px #{$dtp-l}px;
+
+  @media (max-width: $breakpoint-tablet) {
+    margin: #{$tab-t}px #{$tab-r}px #{$tab-b}px #{$tab-l}px;
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    margin: #{$mob-t}px #{$mob-r}px #{$mob-b}px #{$mob-l}px;
+  }
+}
+
+@mixin padding($dtp-t, $dtp-r, $dtp-b, $dtp-l, $tab-t, $tab-r, $tab-b, $tab-l, $mob-t, $mob-r, $mob-b, $mob-l) {
+  margin: #{$dtp-t}px #{$dtp-r}px #{$dtp-b}px #{$dtp-l}px;
+
+  @media (max-width: $breakpoint-tablet) {
+    margin: #{$tab-t}px #{$tab-r}px #{$tab-b}px #{$tab-l}px;
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    margin: #{$mob-t}px #{$mob-r}px #{$mob-b}px #{$mob-l}px;
+  }
+}
+
+// Generic Flex Positioning Rule Declarations
+
+.flex {
+  display: flex;
+
+  &--x-center {
+    justify-content: center;
+  }
+
+  &--x-left {
+    justify-content: flex-start;
+  }
+
+  &--x-right {
+    justify-content: flex-end;
+  }
+
+  &--x-space-between {
+    justify-content: space-between;
+  }
+
+  &--y-top {
+    align-items: flex-start;
+  }
+
+  &--y-center {
+    align-items: center;
+  }
+
+  &--y-bottom {
+    align-items: flex-end;
+  }
+
+  &--wrap {
+    flex-wrap: wrap;
+  }
+}

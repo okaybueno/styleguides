@@ -1,3 +1,23 @@
+// Fontface Import
+
+// Please always declare font-display: swap in your @font-face declaration to avoid loading fallback fonts first.
+
+// @font-face {
+//   font-family: 'Bull Text';
+//   font-weight: 400;
+//   font-style: normal;
+//   font-display: swap;
+//   src: url('https://resources.redbull.com/fonts/bull-text/v1/full/BullText-Regular.woff2') format('woff2'), url('https://resources.redbull.com/fonts/bull-text/v1/full/BullText-Regular.woff') format('woff');
+// }
+//
+// @font-face {
+//   font-family: 'Bull Text';
+//   font-weight: 500;
+//   font-style: normal;
+//   font-display: swap;
+//   src: url('https://resources.redbull.com/fonts/bull-text/v1/full/BullText-Medium.woff2') format('woff2'), url('https://resources.redbull.com/fonts/bull-text/v1/full/BullText-Medium.woff') format('woff');
+// }
+
 h1 {
 
 }
