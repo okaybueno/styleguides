@@ -1,17 +1,17 @@
-@mixin keyframes($animationName) {
-  @-webkit-keyframes #{$animationName} {
+@mixin keyframes($animation-name) {
+  @-webkit-keyframes #{$animation-name} {
     @content;
   }
-  @-moz-keyframes #{$animationName} {
+  @-moz-keyframes #{$animation-name} {
     @content;
   }
-  @keyframes #{$animationName} {
+  @keyframes #{$animation-name} {
     @content;
   }
-  @-o-keyframes #{$animationName} {
+  @-o-keyframes #{$animation-name} {
     @content;
   }
-  @-ms-keyframes #{$animationName} {
+  @-ms-keyframes #{$animation-name} {
     @content;
   }
 }
@@ -19,27 +19,22 @@
 @mixin animation($name, $duration, $iteration, $delay, $fillmode) {
   -webkit-animation-duration: $duration;
      -moz-animation-duration: $duration;
-       -o-animation-duration: $duration;
           animation-duration: $duration;
       -ms-animation-duration: $duration;
   -webkit-animation-delay: $delay;
      -moz-animation-delay: $delay;
-       -o-animation-delay: $delay;
           animation-delay: $delay;
       -ms-animation-delay: $delay;
   -webkit-animation-iteration-count: $iteration;
      -moz-animation-iteration-count: $iteration;
-       -o-animation-iteration-count: $iteration;
           animation-iteration-count: $iteration;
       -ms-animation-iteration-count: $iteration;
   -webkit-animation-name: $name;
      -moz-animation-name: $name;
-       -o-animation-name: $name;
           animation-name: $name;
       -ms-animation-name: $name;
   -webkit-animation-fill-mode: $fillmode;
      -moz-animation-fill-mode: $fillmode;
-       -o-animation-fill-mode: $fillmode;
           animation-fill-mode: $fillmode;
       -ms-animation-fill-mode: $fillmode;
 }

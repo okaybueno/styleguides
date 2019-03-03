@@ -27,7 +27,7 @@ rules:
   no-disallowed-properties: 0
   no-duplicate-properties: 1
   no-empty-rulesets: 1
-  no-extends: 0
+  no-extends: 1
   no-ids: 1
   no-important: 1
   no-invalid-hex: 1
@@ -40,7 +40,7 @@ rules:
   no-universal-selectors: 0
   no-url-domains: 1
   no-url-protocols: 1
-  no-vendor-prefixes: 1
+  no-vendor-prefixes: 0
   no-warn: 1
   property-units: 0
 
@@ -67,7 +67,10 @@ rules:
   bem-depth: 0
   border-zero: 1
   brace-style: 1
-  clean-import-paths: 1
+  clean-import-paths:
+    - 1
+    - filename-extension: false
+      leading-underscore: true
   empty-args: 1
   hex-length: 1
   hex-notation: 1
