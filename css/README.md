@@ -271,33 +271,33 @@ Using !important is usually only the last resort — we've all been guilty of us
 
 ### Breakpoints
 
-We should limit the number of breakpoints generally used in a project to the necessary minimum. Breakpoints should always be declared as variables. No more than 5 breakpoints should be used in any given project, special custom breakpoints may only be used in emergencies(!) or in controlling e. g. VH media queries
+We should limit the number of breakpoints generally used in a project to the necessary minimum. Breakpoints should always be declared as variables in an array. No more than 5 breakpoints should be used in any given project, special custom breakpoints may only be used in emergencies(!) or in controlling e. g. VH media queries
 
 ```scss
-$breakpoint-mobile: 500px;
-$breakpoint-tablet-small: 768px;
-$breakpoint-tablet: 1000px;
-$breakpoint-desktop: 1440px;
-$breakpoint-desktop-large: 1920px;
+$breakpoints: (
+    'mobile':         500px,
+    'tablet-small':   768px,
+    'tablet':         1000px,
+    'desktop':        1440px,
+    'desktop-wide':   1920px
+);
 ```
 
 ### Media Queries
 
-Ideally, we only use max-width media queries in overwrites to reduce the complexity of the code and the number of breakpoints, e. g.
+Ideally, we only use max-width media queries in overwrites to reduce the complexity of the code and the number of breakpoints. To enforce this structure, we use a mq Mixin that accepts the defined breakpoints array keys.
 
 ```scss
-.block {
-  width: 60vw;
-  
-  @media(max-width: $breakpoint-tablet) {
-    width: 80vw;
-  }
-  
-  @media(max-width: $breakpoint-mobile) {
-    width: 90vw;
+@mixin mq($width) {
+  @if map-has-key($breakpoints, $width) {
+    $width: map-get($breakpoints, $width);
+    @media only screen and (max-width: $width) {
+      @content;
+    }
   }
 }
 ```
+An usage example can be found in this [Codepen](https://codepen.io/okay_alex/pen/eXzNYK)
 
 ### z-index
 
