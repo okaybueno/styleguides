@@ -86,67 +86,22 @@ $z-indexes: (
   // e. g. 'navbar',
 );
 
-
-// Mixins for Margin / Padding
-
-@mixin margin($dtp-t, $dtp-r, $dtp-b, $dtp-l, $tab-t, $tab-r, $tab-b, $tab-l, $mob-t, $mob-r, $mob-b, $mob-l) {
-  margin: #{$dtp-t}px #{$dtp-r}px #{$dtp-b}px #{$dtp-l}px;
-
-  @media (max-width: $breakpoint-tablet) {
-    margin: #{$tab-t}px #{$tab-r}px #{$tab-b}px #{$tab-l}px;
-  }
-
-  @media (max-width: $breakpoint-mobile) {
-    margin: #{$mob-t}px #{$mob-r}px #{$mob-b}px #{$mob-l}px;
-  }
-}
-
-@mixin padding($dtp-t, $dtp-r, $dtp-b, $dtp-l, $tab-t, $tab-r, $tab-b, $tab-l, $mob-t, $mob-r, $mob-b, $mob-l) {
-  margin: #{$dtp-t}px #{$dtp-r}px #{$dtp-b}px #{$dtp-l}px;
-
-  @media (max-width: $breakpoint-tablet) {
-    margin: #{$tab-t}px #{$tab-r}px #{$tab-b}px #{$tab-l}px;
-  }
-
-  @media (max-width: $breakpoint-mobile) {
-    margin: #{$mob-t}px #{$mob-r}px #{$mob-b}px #{$mob-l}px;
-  }
-}
-
 // Generic Flex Positioning Rule Declarations
 
-.flex {
+.flex-center {
   display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  &--x-center {
-    justify-content: center;
-  }
+.flex-start {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
 
-  &--x-left {
-    justify-content: flex-start;
-  }
-
-  &--x-right {
-    justify-content: flex-end;
-  }
-
-  &--x-space-between {
-    justify-content: space-between;
-  }
-
-  &--y-top {
-    align-items: flex-start;
-  }
-
-  &--y-center {
-    align-items: center;
-  }
-
-  &--y-bottom {
-    align-items: flex-end;
-  }
-
-  &--wrap {
-    flex-wrap: wrap;
-  }
+.flex-end {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
