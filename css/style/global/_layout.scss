@@ -72,7 +72,7 @@ $grid-inner-gutter--desktop: 24px;
 
 
 // z-index hierarchy function
-
+// https://codepen.io/okay_alex/pen/xBVoxV
 @function z($name) {
     @if index($z-indexes, $name) {
         @return (length($z-indexes) - index($z-indexes, $name)) + 1;
@@ -81,27 +81,65 @@ $grid-inner-gutter--desktop: 24px;
     }
 }
 $z-indexes: (
-  // add z-index definitions here once you define them in a rule declaration
-  // e. g. 'modal'
-  // e. g. 'navbar',
+  "modal",
+  "toast",
+  "site-header",
+  "site-body"
 );
 
 // Generic Flex Positioning Rule Declarations
 
+
+.m-top-smaller{
+  margin-top: 8px;
+}
+.m-top-small{
+  margin-top: 16px;
+}
+.m-top-mid {
+  margin-top: 32px;
+}
+.m-top-large {
+  margin-top: 48px;
+}
+.m-top-xlarge {
+  margin-top: 64px;
+}
+.m-top-xxlarge {
+  margin-top: 72px;
+}
+
+
 .flex-center {
   display: flex;
-  align-items: center;
   justify-content: center;
-}
-
-.flex-start {
-  display: flex;
   align-items: center;
+}
+.flex-column {
+  display: flex;
+  flex-direction: column;
   justify-content: flex-start;
 }
-
+.flex-space{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.flex-space-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  flex-wrap: wrap;
+}
 .flex-end {
   display: flex;
-  align-items: center;
   justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+}
+.flex-wrap {
+  display: flex;
+  flex-flow: row wrap;
 }

@@ -24,4 +24,8 @@
       background: $color-brand-secondary;
     }
   }
+  
+  &--disabled {
+    background: $color-bg-light;
+  }
 }

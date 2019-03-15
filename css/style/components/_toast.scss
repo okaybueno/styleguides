@@ -1,0 +1,26 @@
+// remove if not needed
+.toast {
+  position: fixed;
+  bottom: 40px;
+  height: 60px;
+  background: $color-brand-secondary;
+  left: $grid-outer-gutter--desktop;
+  border-radius: 4px;
+  z-index: z('modal');
+  
+  @include mq('desktop') {
+    width: calc(100vw - #{$grid-outer-gutter--desktop} * 2);
+  }
+  @include mq('tablet') {
+    width: calc(100vw - #{$grid-outer-gutter--tablet} * 2);
+  }
+  @include mq('mobile') {
+    width: calc(100vw - #{$grid-outer-gutter--mobile} * 2);
+  }
+
+  
+  &:hover{
+    cursor: pointer;
+  }
+}
+

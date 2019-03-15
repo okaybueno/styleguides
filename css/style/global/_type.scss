@@ -38,13 +38,23 @@
 //   // Declaration goes here
 // }
 
-// p {
+// p, a {
 //   // Declaration goes here
 // }
+
+//a {
+//  &:focus{
+//    color: $lightgrey;
+//  }
+//}
 
 // label {
 //   // Declaration goes here
 // }
+
+//input, textarea {
+//
+//}
 
 .text-truncate {
    overflow: hidden;
@@ -63,3 +73,4 @@
 .text-align-right {
   text-align: right;
 }
+
