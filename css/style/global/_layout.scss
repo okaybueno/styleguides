@@ -1,7 +1,7 @@
 // Grid Variables
 $grid-outer-gutter--mobile: 16px;
 $grid-outer-gutter--tablet: 40px;
-$grid-outer-gutter--desktop: 8vw;
+$grid-outer-gutter--desktop: 8%;
 
 $grid-columns--mobile: 6;
 $grid-columns--tablet: 8;
@@ -13,113 +13,126 @@ $grid-inner-gutter--desktop: 24px;
 
 // Generic Grid Wrapper Class
 
-.grid-wrapper {
-    max-width: 100%;
+@mixin grid-wrapper {
+  max-width: 100%;
+  width: 100%;
 
-    @include mq('desktop') {
-        width: calc(100vw - #{$grid-outer-gutter--desktop} * 2);
-        padding: 0 $grid-outer-gutter--desktop;
-    }
+  @include mq('desktop') {
+    width: calc(100% - #{$grid-outer-gutter--desktop} * 2);
+    padding: 0 $grid-outer-gutter--desktop;
+  }
 
-    @include mq('tablet') {
-        width: calc(100vw - #{$grid-outer-gutter--tablet} * 2);
-        padding: 0 $grid-outer-gutter--tablet;
-    }
+  @include mq('tablet') {
+    width: calc(100% - #{$grid-outer-gutter--tablet} * 2);
+    padding: 0 $grid-outer-gutter--tablet;
+  }
 
-    @include mq('mobile') {
-        width: calc(100vw - #{$grid-outer-gutter--mobile} * 2);
-        padding: 0 $grid-outer-gutter--mobile;
-    }
+  @include mq('mobile') {
+    width: calc(100% - #{$grid-outer-gutter--mobile} * 2);
+    padding: 0 $grid-outer-gutter--mobile;
+  }
 }
 
 // Grid Element Mixin
 
-@mixin grid-element($grid-element-columns-mobile, $grid-margin-mobile, $grid-element-columns-tablet, $grid-margin-tablet, $grid-element-columns-desktop, $grid-margin-desktop, $element-padding) {
-    max-width: 100%;
-    width: calc((100vw - #{$grid-outer-gutter--desktop} * 2 - #{$grid-inner-gutter--desktop} * (#{$grid-columns--desktop} - 1)) / #{$grid-columns--desktop} * #{$grid-element-columns-desktop} + #{$grid-inner-gutter--desktop} * (#{$grid-element-columns-desktop} - 1) - #{$element-padding}px * 2);
-    margin-right: $grid-inner-gutter--desktop;
+@mixin grid-element($el-mobile, $el-tablet, $el-desktop) {
+  max-width: 100%;
+  width: calc((100% / #{$el-desktop} -  #{$grid-inner-gutter--desktop} * (#{$el-desktop} - 1) / #{$el-desktop}) - 1px / #{$el-desktop});
+  margin-right: $grid-inner-gutter--desktop;
 
-    &:nth-child(#{$grid-margin-desktop}n) {
-        margin-right: 0;
+  &:nth-child(#{$el-desktop}n) {
+    margin-right: 0;
+  }
+
+  @include mq('tablet') {
+    width: calc((100% / #{$el-tablet} -  #{$grid-inner-gutter--tablet} * (#{$el-tablet} - 1) / #{$el-tablet}) - 1px / #{$el-tablet});
+    margin-right: $grid-inner-gutter--tablet;
+
+    &:nth-child(#{$el-desktop}n) {
+      margin-right: $grid-inner-gutter--tablet;
     }
 
-    @media(max-width: $breakpoint-tablet) {
-        width: calc((100vw - #{$grid-outer-gutter--tablet} * 2 - #{$grid-inner-gutter--tablet} * (#{$grid-columns--tablet} - 1)) / #{$grid-columns--tablet} * #{$grid-element-columns-tablet} + #{$grid-inner-gutter--tablet} * (#{$grid-element-columns-tablet} - 1) - #{$element-padding}px * 2);
+    &:nth-child(#{$el-tablet}n) {
+      margin-right: 0;
+    }
+  }
 
-        margin-right: $grid-inner-gutter--tablet;
+  @include mq('mobile') {
+    width: calc((100% / #{$el-mobile} -  #{$grid-inner-gutter--mobile} * (#{$el-mobile} - 1) / #{$el-mobile}) - 1px / #{$el-mobile});
+    margin-right: $grid-inner-gutter--mobile;
 
-        &:nth-child(#{$grid-margin-tablet}n) {
-            margin-right: 0;
-        }
+    &:nth-child(#{$el-mobile}n) {
+      margin-right: $grid-inner-gutter--mobile;
     }
 
-    @media(max-width: $breakpoint-mobile) {
-        width: calc((100vw - #{$grid-outer-gutter--mobile} * 2 - #{$grid-inner-gutter--mobile} * (#{$grid-columns--mobile} - 1)) / #{$grid-columns--mobile} * #{$grid-element-columns-mobile} + #{$grid-inner-gutter--mobile} * (#{$grid-element-columns-mobile} - 1) - #{$element-padding}px * 2);
-
-        margin-right: $grid-inner-gutter--mobile;
-
-        &:nth-child(#{$grid-margin-mobile}n) {
-            margin-right: 0;
-        }
+    &:nth-child(#{$el-mobile}n) {
+      margin-right: 0;
     }
+  }
 }
 
 
 // z-index hierarchy function
 // https://codepen.io/okay_alex/pen/xBVoxV
 @function z($name) {
-    @if index($z-indexes, $name) {
-        @return (length($z-indexes) - index($z-indexes, $name)) + 1;
-    } @else {
-        @return null;
-    }
+  @if index($z-indexes, $name) {
+    @return (length($z-indexes) - index($z-indexes, $name)) + 1;
+  } @else {
+    @return null;
+  }
 }
 $z-indexes: (
-  "modal",
-  "toast",
-  "site-header",
-  "site-body"
+'modal',
+'toast',
+'site-header',
+'site-body'
 );
 
 // Generic Flex Positioning Rule Declarations
 
-
-.m-top-smaller{
+.m-top-smaller {
   margin-top: 8px;
 }
-.m-top-small{
+
+.m-top-small {
   margin-top: 16px;
 }
+
 .m-top-mid {
   margin-top: 32px;
 }
+
 .m-top-large {
   margin-top: 48px;
 }
+
 .m-top-xlarge {
   margin-top: 64px;
 }
+
 .m-top-xxlarge {
   margin-top: 72px;
 }
-
 
 .flex-center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .flex-column {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
 }
-.flex-space{
+
+.flex-space {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
 }
+
 .flex-space-wrap {
   display: flex;
   justify-content: space-between;
@@ -127,12 +140,14 @@ $z-indexes: (
   width: 100%;
   flex-wrap: wrap;
 }
+
 .flex-end {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   width: 100%;
 }
+
 .flex-wrap {
   display: flex;
   flex-flow: row wrap;

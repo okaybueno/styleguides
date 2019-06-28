@@ -7,7 +7,7 @@
   left: $grid-outer-gutter--desktop;
   border-radius: 4px;
   z-index: z('modal');
-  
+
   @include mq('desktop') {
     width: calc(100vw - #{$grid-outer-gutter--desktop} * 2);
   }
@@ -18,9 +18,8 @@
     width: calc(100vw - #{$grid-outer-gutter--mobile} * 2);
   }
 
-  
-  &:hover{
+
+  &:hover {
     cursor: pointer;
   }
 }
-
