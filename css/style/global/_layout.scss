@@ -16,23 +16,17 @@ $grid-inner-gutter--desktop: 24px;
 .grid-wrapper {
     max-width: 100%;
 
-    @media(min-width: calc(#{$breakpoint-desktop-large})) {
+    @include mq('desktop') {
         width: calc(100vw - #{$grid-outer-gutter--desktop} * 2);
         padding: 0 $grid-outer-gutter--desktop;
     }
 
-    @media(max-width: $breakpoint-desktop-large) {
-        width: calc(100vw - #{$grid-outer-gutter--desktop} * 2);
-        padding: 0 $grid-outer-gutter--desktop;
-    }
-
-    @media(max-width: $breakpoint-tablet) {
+    @include mq('tablet') {
         width: calc(100vw - #{$grid-outer-gutter--tablet} * 2);
         padding: 0 $grid-outer-gutter--tablet;
-
     }
 
-    @media(max-width: $breakpoint-mobile) {
+    @include mq('mobile') {
         width: calc(100vw - #{$grid-outer-gutter--mobile} * 2);
         padding: 0 $grid-outer-gutter--mobile;
     }
