@@ -1,16 +1,3 @@
-// Grid Variables
-$grid-outer-gutter--mobile: 16px;
-$grid-outer-gutter--tablet: 40px;
-$grid-outer-gutter--desktop: 8%;
-
-$grid-columns--mobile: 6;
-$grid-columns--tablet: 8;
-$grid-columns--desktop: 12;
-
-$grid-inner-gutter--mobile: 16px;
-$grid-inner-gutter--tablet: 24px;
-$grid-inner-gutter--desktop: 32px;
-
 // Generic Grid Wrapper Class
 
 @mixin grid-wrapper {
@@ -154,34 +141,43 @@ $grid-inner-gutter--desktop: 32px;
     }
 }
 
-// z-index hierarchy function
-// https://codepen.io/okay_alex/pen/xBVoxV
-@function z($name) {
-  @if index($z-indexes, $name) {
-    @return (length($z-indexes) - index($z-indexes, $name)) + 1;
-  } @else {
-    @return null;
+@mixin grid-element-with-outer-gutter( $grid-element-columns-mobile, $grid-outer-gutter-times-mobile, $grid-element-columns-tablet-small, $grid-outer-gutter-times-tablet-small, $grid-element-columns-tablet, $grid-outer-gutter-times-tablet, $grid-element-columns-desktop, $grid-outer-gutter-times-desktop, $grid-element-columns-desktop-wide, $grid-outer-gutter-times-desktop-wide ) {
+  max-width: 100%;
+  width: calc( (100vw - #{$grid-outer-gutter--desktop} * 2) * (#{$grid-element-columns-desktop-wide} / #{$cols-desktop}) + (#{$grid-outer-gutter--desktop} * #{$grid-outer-gutter-times-desktop-wide}));
+
+  @include mq('desktop') {
+      width: calc( (100vw - #{$grid-outer-gutter--desktop} * 2) * (#{$grid-element-columns-desktop} / #{$cols-desktop}) + (#{$grid-outer-gutter--desktop} * #{$grid-outer-gutter-times-desktop}));
+  }
+
+  @include mq('tablet') {
+      width: calc( (100vw - #{$grid-outer-gutter--tablet} * 2) * (#{$grid-element-columns-tablet} / #{$cols-tablet} ) + (#{$grid-outer-gutter--tablet} * #{$grid-outer-gutter-times-tablet}));
+  }
+
+  @include mq('tablet-small') {
+      width: calc( (100vw - #{$grid-outer-gutter--tablet} * 2) * (#{$grid-element-columns-tablet-small} / #{$cols-tablet} ) + (#{$grid-outer-gutter--tablet} * #{$grid-outer-gutter-times-tablet-small}));
+  }
+
+  @include mq('mobile') {
+      width: calc( (100vw - #{$grid-outer-gutter--mobile} * 2) * (#{$grid-element-columns-mobile} / #{$cols-mobile}) + (#{$grid-outer-gutter--mobile} * #{$grid-outer-gutter-times-mobile}));
   }
 }
-$z-indexes: (
-'modal',
-'toast',
-'site-header',
-'site-body'
-);
 
+
+
+
+// fit image to it's parent
 @mixin image-fit {
-    position: absolute;
-    top: 0;
-    left: 0;
-    min-width: 100%;
-    width: auto;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  width: auto;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 
-    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-        height: auto;
-        min-height: 100%;
-    }
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+      height: auto;
+      min-height: 100%;
+  }
 }
