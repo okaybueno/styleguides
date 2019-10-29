@@ -1,22 +1,22 @@
 // Generic Grid Wrapper Class
-
 @mixin grid-wrapper {
   max-width: 100%;
   width: 100%;
+  box-sizing: border-box;
 
   @include mq('desktop') {
-    width: calc(100% - #{$grid-outer-gutter--desktop} * 2);
-    padding: 0 $grid-outer-gutter--desktop;
+      padding-left: $grid-outer-gutter--desktop;
+      padding-right: $grid-outer-gutter--desktop;
   }
 
   @include mq('tablet') {
-    width: calc(100% - #{$grid-outer-gutter--tablet} * 2);
-    padding: 0 $grid-outer-gutter--tablet;
+      padding-left: $grid-outer-gutter--tablet;
+      padding-right: $grid-outer-gutter--tablet;
   }
 
   @include mq('mobile') {
-    width: calc(100% - #{$grid-outer-gutter--mobile} * 2);
-    padding: 0 $grid-outer-gutter--mobile;
+      padding-left: $grid-outer-gutter--mobile;
+      padding-right: $grid-outer-gutter--mobile;
   }
 }
 

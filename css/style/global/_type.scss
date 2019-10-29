@@ -18,6 +18,14 @@
 //   src: url('https://resources.redbull.com/fonts/bull-text/v1/full/BullText-Medium.woff2') format('woff2'), url('https://resources.redbull.com/fonts/bull-text/v1/full/BullText-Medium.woff') format('woff');
 // }
 
+// @mixin font-primary {
+//   font-family: Bull Text, Impact, Charcoal, sans-serif;
+// }
+
+// @mixin font-secondary {
+//   font-family: Bull Text, 'Arial Black', Gadget, sans-serif;
+// }
+
 h1 {
   font-size: 4.6rem;
 	line-height: 1.2;
