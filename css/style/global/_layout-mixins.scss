@@ -1,166 +1,253 @@
 // Generic Grid Wrapper Class
-@mixin grid-wrapper {
-  max-width: 100%;
-  width: 100%;
-  box-sizing: border-box;
-
-  @include mq('desktop') {
-      padding-left: $grid-outer-gutter--desktop;
-      padding-right: $grid-outer-gutter--desktop;
+@mixin grid-wrapper($breakpoints: null) {
+  @if (index($breakpoints, 'mobile') or $breakpoints == null) {
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: $grid-outer-gutter--mobile;
+    padding-right: $grid-outer-gutter--mobile;
   }
 
-  @include mq('tablet') {
+  @if (index($breakpoints, 'tablet') or $breakpoints == null) {
+    @include mq('tablet-small') {
       padding-left: $grid-outer-gutter--tablet;
       padding-right: $grid-outer-gutter--tablet;
+    }
   }
 
-  @include mq('mobile') {
-      padding-left: $grid-outer-gutter--mobile;
-      padding-right: $grid-outer-gutter--mobile;
+  @if (index($breakpoints, 'desktop') or $breakpoints == null) {
+    @include mq('desktop') {
+      padding-left: $grid-outer-gutter--desktop;
+      padding-right: $grid-outer-gutter--desktop;
+    }
+  }
+
+  @if (index($breakpoints, 'desktop-wide') or $breakpoints == null) {
+    @include mq('desktop-wide') {
+      padding-left: $grid-outer-gutter--desktop-wide;
+      padding-right: $grid-outer-gutter--desktop-wide;
+    }
   }
 }
 
 // Grid Element Mixins
-
-@mixin grid-element($el-mobile, $el-tablet, $el-desktop) {
-  max-width: 100%;
-  width: calc((100% / #{$el-desktop} -  #{$grid-inner-gutter--desktop} * (#{$el-desktop} - 1) / #{$el-desktop}) - 1px / #{$el-desktop});
-  margin-right: $grid-inner-gutter--desktop;
-
-  &:nth-child(#{$el-desktop}n) {
-    margin-right: 0;
+@function get-inner-gutter($breakpoint: null) {
+  @if ($breakpoint == 'mobile' or $breakpoint == null) {
+    @return $grid-inner-gutter--mobile;
   }
 
-  @include mq('tablet') {
-    width: calc((100% / #{$el-tablet} -  #{$grid-inner-gutter--tablet} * (#{$el-tablet} - 1) / #{$el-tablet}) - 1px / #{$el-tablet});
-    margin-right: $grid-inner-gutter--tablet;
+  @if ($breakpoint == 'tablet' or $breakpoint == null) {
+    @return $grid-inner-gutter--tablet;
+  }
 
-    &:nth-child(#{$el-desktop}n) {
-      margin-right: $grid-inner-gutter--tablet;
+  @if ($breakpoint == 'desktop' or $breakpoint == null) {
+    @return $grid-inner-gutter--desktop;
+  }
+
+  @return $grid-inner-gutter--mobile;
+}
+
+@function grid-el($cols, $breakpoint: 'mobile', $mod: false) {
+  // base number of columns is 12
+  $inner-gutter-value: get-inner-gutter($breakpoint);
+  @if ($mod) {
+    @return calc(((100% / #{$base-cols} - #{$inner-gutter-value / $base-cols * ($base-cols - 1)}) * #{$cols} + #{$inner-gutter-value * ($cols - 1)}) + #{$mod});
+  } @else {
+    @return calc((100% / #{$base-cols} - #{$inner-gutter-value / $base-cols * ($base-cols - 1)}) * #{$cols} + #{$inner-gutter-value * ($cols - 1)});
+  }
+}
+
+@mixin property-with-gutter($property, $breakpoints: null, $grid-gutter: 'outer') {
+  @debug $grid-gutter;
+  @if (index($breakpoints, 'mobile') or $breakpoints == null) {
+    #{$property}: if($grid-gutter == 'outer', $grid-outer-gutter--mobile, $grid-inner-gutter--mobile);
+  }
+
+  @if (index($breakpoints, 'tablet') or $breakpoints == null) {
+    @include mq('tablet') {
+      #{$property}: if($grid-gutter == 'outer', $grid-outer-gutter--tablet, $grid-inner-gutter--tablet);
     }
+  }
 
-    &:nth-child(#{$el-tablet}n) {
+  @if (index($breakpoints, 'desktop') or $breakpoints == null) {
+    @include mq('desktop') {
+      #{$property}: if($grid-gutter == 'outer', $grid-outer-gutter--desktop, $grid-inner-gutter--desktop);
+    }
+  }
+
+  @if (index($breakpoints, 'desktop-wide') or $breakpoints == null) {
+    @include mq('desktop-wide') {
+      #{$property}: if($grid-gutter == 'outer', $grid-outer-gutter--desktop-wide, $grid-inner-gutter--desktop-wide);
+    }
+  }
+}
+
+@mixin grid-el-mixin($cols-mobile: null, $cols-tablet: null, $cols-desktop: null) {
+  max-width: 100%;
+
+  @if( $cols-mobile) {
+    $inner-gutter: get-inner-gutter('mobile');
+    width: grid-el($cols-mobile, $inner-gutter);
+    margin-right: $inner-gutter;
+
+    &:nth-child(#{floor($base-cols / $cols-mobile)}n) {
       margin-right: 0;
     }
   }
 
-  @include mq('mobile') {
-    width: calc((100% / #{$el-mobile} -  #{$grid-inner-gutter--mobile} * (#{$el-mobile} - 1) / #{$el-mobile}) - 1px / #{$el-mobile});
-    margin-right: $grid-inner-gutter--mobile;
+  @if( $cols-tablet ) {
+      @include mq('tablet') {
+        $inner-gutter: get-inner-gutter('tablet');
+        width: grid-el($cols-tablet, $inner-gutter);
+        margin-right: $inner-gutter;
 
-    &:nth-child(#{$el-mobile}n) {
-      margin-right: $grid-inner-gutter--mobile;
-    }
+        &:nth-child(#{floor($base-cols / $cols-mobile)}n) {
+          margin-right: $inner-gutter;
+        }
 
-    &:nth-child(#{$el-mobile}n) {
-      margin-right: 0;
-    }
+        &:nth-child(#{floor($base-cols / $cols-tablet)}n) {
+          margin-right: 0;
+        }
+      }
   }
-}
-
-@mixin grid-element-inline($el-mobile, $el-tablet-small, $el-tablet, $el-desktop, $el-desktop-wide) {
-    max-width: 100%;
-    width: calc((100% / #{$el-desktop-wide} -  #{$grid-inner-gutter--desktop} * (#{$el-desktop-wide} - 1) / #{$el-desktop-wide}));
-    margin-right: $grid-inner-gutter--desktop;
-
-    &:nth-child(#{$el-desktop-wide}n) {
-        margin-right: 0;
-    }
-
-    @include mq('desktop') {
-        width: calc((100% / #{$el-desktop} -  #{$grid-inner-gutter--desktop} * (#{$el-desktop} - 1) / #{$el-desktop}));
-        margin-right: $grid-inner-gutter--desktop;
-
-        &:nth-child(#{$el-desktop-wide}n) {
-            margin-right: $grid-inner-gutter--desktop;
-        }
-
-        &:nth-child(#{$el-desktop}n) {
-            margin-right: 0;
-        }
-    }
-
-    @include mq('tablet') {
-        width: calc((100% / #{$el-tablet} -  #{$grid-inner-gutter--tablet} * (#{$el-tablet} - 1) / #{$el-tablet}));
-        margin-right: $grid-inner-gutter--tablet;
-
-        &:nth-child(#{$el-desktop}n) {
-            margin-right: $grid-inner-gutter--tablet;
-        }
-
-        &:nth-child(#{$el-tablet}n) {
-            margin-right: 0;
-        }
-    }
-
-    @include mq('tablet-small') {
-        width: calc((100% / #{$el-tablet-small} -  #{$grid-inner-gutter--tablet} * (#{$el-tablet-small} - 1) / #{$el-tablet-small}));
-        margin-right: $grid-inner-gutter--tablet;
-
-        &:nth-child(#{$el-tablet}n) {
-            margin-right: $grid-inner-gutter--tablet;
-        }
-
-        &:nth-child(#{$el-tablet-small}n) {
-            margin-right: 0;
-        }
-    }
-
-    @include mq('mobile') {
-        width: calc((100% / #{$el-mobile} -  #{$grid-inner-gutter--mobile} * (#{$el-mobile} - 1) / #{$el-mobile}) / #{$el-mobile});
-        margin-right: $grid-inner-gutter--mobile;
-
-        &:nth-child(#{$el-tablet-small}n) {
-            margin-right: $grid-inner-gutter--mobile;
-        }
-
-        &:nth-child(#{$el-mobile}n) {
-            margin-right: 0;
-        }
-    }
-}
-
-@mixin grid-element-inline-absolute($el-mobile, $el-tablet-small, $el-tablet, $el-desktop, $el-desktop-wide) {
-    max-width: 100%;
-    width: calc((100% / #{$el-desktop-wide} -  #{$grid-inner-gutter--desktop} * (#{$el-desktop-wide} - 1) / #{$el-desktop-wide}) - 1px / #{$el-desktop-wide});
-
-    @include mq('desktop') {
-        width: calc((100% / #{$el-desktop} -  #{$grid-inner-gutter--desktop} * (#{$el-desktop} - 1) / #{$el-desktop}) - 1px / #{$el-desktop});
-    }
-
-    @include mq('tablet') {
-        width: calc((100% / #{$el-tablet} -  #{$grid-inner-gutter--tablet} * (#{$el-tablet} - 1) / #{$el-tablet}) - 1px / #{$el-tablet});
-    }
-
-    @include mq('tablet-small') {
-        width: calc((100% / #{$el-tablet-small} -  #{$grid-inner-gutter--tablet} * (#{$el-tablet-small} - 1) / #{$el-tablet-small}) - 1px / #{$el-tablet-small});
-    }
-
-    @include mq('mobile') {
-        width: calc((100% / #{$el-mobile} -  #{$grid-inner-gutter--mobile} * (#{$el-mobile} - 1) / #{$el-mobile}) - 1px / #{$el-mobile});
-    }
-}
-
-@mixin grid-element-with-outer-gutter( $grid-element-columns-mobile, $grid-outer-gutter-times-mobile, $grid-element-columns-tablet-small, $grid-outer-gutter-times-tablet-small, $grid-element-columns-tablet, $grid-outer-gutter-times-tablet, $grid-element-columns-desktop, $grid-outer-gutter-times-desktop, $grid-element-columns-desktop-wide, $grid-outer-gutter-times-desktop-wide ) {
-  max-width: 100%;
-  width: calc( (100vw - #{$grid-outer-gutter--desktop} * 2) * (#{$grid-element-columns-desktop-wide} / #{$cols-desktop}) + (#{$grid-outer-gutter--desktop} * #{$grid-outer-gutter-times-desktop-wide}));
 
   @include mq('desktop') {
-      width: calc( (100vw - #{$grid-outer-gutter--desktop} * 2) * (#{$grid-element-columns-desktop} / #{$cols-desktop}) + (#{$grid-outer-gutter--desktop} * #{$grid-outer-gutter-times-desktop}));
-  }
+    @include mq('desktop') {
+      $inner-gutter: get-inner-gutter('desktop');
+      width: grid-el($cols-desktop, $inner-gutter);
+      margin-right: $inner-gutter;
 
-  @include mq('tablet') {
-      width: calc( (100vw - #{$grid-outer-gutter--tablet} * 2) * (#{$grid-element-columns-tablet} / #{$cols-tablet} ) + (#{$grid-outer-gutter--tablet} * #{$grid-outer-gutter-times-tablet}));
-  }
+      &:nth-child(#{floor($base-cols / $cols-tablet)}n) {
+        margin-right: $inner-gutter;
+      }
 
-  @include mq('tablet-small') {
-      width: calc( (100vw - #{$grid-outer-gutter--tablet} * 2) * (#{$grid-element-columns-tablet-small} / #{$cols-tablet} ) + (#{$grid-outer-gutter--tablet} * #{$grid-outer-gutter-times-tablet-small}));
-  }
-
-  @include mq('mobile') {
-      width: calc( (100vw - #{$grid-outer-gutter--mobile} * 2) * (#{$grid-element-columns-mobile} / #{$cols-mobile}) + (#{$grid-outer-gutter--mobile} * #{$grid-outer-gutter-times-mobile}));
+      &:nth-child(#{floor($base-cols / $cols-desktop)}n) {
+        margin-right: 0;
+      }
+    }
   }
 }
+
+
+// @mixin grid-el($el-mobile, $el-tablet, $el-desktop) {
+//   max-width: 100%;
+//   width: calc((100% / #{$el-desktop} -  #{$grid-inner-gutter--desktop} * (#{$el-desktop} - 1) / #{$el-desktop}) - 1px / #{$el-desktop});
+//   margin-right: $grid-inner-gutter--desktop;
+
+//   &:nth-child(#{$el-desktop}n) {
+//     margin-right: 0;
+//   }
+
+//   @include mq('tablet') {
+//     width: calc((100% / #{$el-tablet} -  #{$grid-inner-gutter--tablet} * (#{$el-tablet} - 1) / #{$el-tablet}) - 1px / #{$el-tablet});
+//     margin-right: $grid-inner-gutter--tablet;
+
+//     &:nth-child(#{$el-desktop}n) {
+//       margin-right: $grid-inner-gutter--tablet;
+//     }
+
+//     &:nth-child(#{$el-tablet}n) {
+//       margin-right: 0;
+//     }
+//   }
+
+//   @include mq('mobile') {
+//     width: calc((100% / #{$el-mobile} -  #{$grid-inner-gutter--mobile} * (#{$el-mobile} - 1) / #{$el-mobile}) - 1px / #{$el-mobile});
+//     margin-right: $grid-inner-gutter--mobile;
+
+//     &:nth-child(#{$el-mobile}n) {
+//       margin-right: $grid-inner-gutter--mobile;
+//     }
+
+//     &:nth-child(#{$el-mobile}n) {
+//       margin-right: 0;
+//     }
+//   }
+// }
+
+// @mixin grid-element-inline($el-mobile, $el-tablet-small, $el-tablet, $el-desktop, $el-desktop-wide) {
+//     max-width: 100%;
+//     width: calc((100% / #{$el-desktop-wide} -  #{$grid-inner-gutter--desktop} * (#{$el-desktop-wide} - 1) / #{$el-desktop-wide}));
+//     margin-right: $grid-inner-gutter--desktop;
+
+//     &:nth-child(#{$el-desktop-wide}n) {
+//         margin-right: 0;
+//     }
+
+//     @include mq('desktop') {
+//         width: calc((100% / #{$el-desktop} -  #{$grid-inner-gutter--desktop} * (#{$el-desktop} - 1) / #{$el-desktop}));
+//         margin-right: $grid-inner-gutter--desktop;
+
+//         &:nth-child(#{$el-desktop-wide}n) {
+//             margin-right: $grid-inner-gutter--desktop;
+//         }
+
+//         &:nth-child(#{$el-desktop}n) {
+//             margin-right: 0;
+//         }
+//     }
+
+//     @include mq('tablet') {
+//         width: calc((100% / #{$el-tablet} -  #{$grid-inner-gutter--tablet} * (#{$el-tablet} - 1) / #{$el-tablet}));
+//         margin-right: $grid-inner-gutter--tablet;
+
+//         &:nth-child(#{$el-desktop}n) {
+//             margin-right: $grid-inner-gutter--tablet;
+//         }
+
+//         &:nth-child(#{$el-tablet}n) {
+//             margin-right: 0;
+//         }
+//     }
+
+//     @include mq('tablet-small') {
+//         width: calc((100% / #{$el-tablet-small} -  #{$grid-inner-gutter--tablet} * (#{$el-tablet-small} - 1) / #{$el-tablet-small}));
+//         margin-right: $grid-inner-gutter--tablet;
+
+//         &:nth-child(#{$el-tablet}n) {
+//             margin-right: $grid-inner-gutter--tablet;
+//         }
+
+//         &:nth-child(#{$el-tablet-small}n) {
+//             margin-right: 0;
+//         }
+//     }
+
+//     @include mq('mobile') {
+//         width: calc((100% / #{$el-mobile} -  #{$grid-inner-gutter--mobile} * (#{$el-mobile} - 1) / #{$el-mobile}) / #{$el-mobile});
+//         margin-right: $grid-inner-gutter--mobile;
+
+//         &:nth-child(#{$el-tablet-small}n) {
+//             margin-right: $grid-inner-gutter--mobile;
+//         }
+
+//         &:nth-child(#{$el-mobile}n) {
+//             margin-right: 0;
+//         }
+//     }
+// }
+
+// @mixin grid-element-inline-absolute($el-mobile, $el-tablet-small, $el-tablet, $el-desktop, $el-desktop-wide) {
+//     max-width: 100%;
+//     width: calc((100% / #{$el-desktop-wide} -  #{$grid-inner-gutter--desktop} * (#{$el-desktop-wide} - 1) / #{$el-desktop-wide}) - 1px / #{$el-desktop-wide});
+
+//     @include mq('desktop') {
+//         width: calc((100% / #{$el-desktop} -  #{$grid-inner-gutter--desktop} * (#{$el-desktop} - 1) / #{$el-desktop}) - 1px / #{$el-desktop});
+//     }
+
+//     @include mq('tablet') {
+//         width: calc((100% / #{$el-tablet} -  #{$grid-inner-gutter--tablet} * (#{$el-tablet} - 1) / #{$el-tablet}) - 1px / #{$el-tablet});
+//     }
+
+//     @include mq('tablet-small') {
+//         width: calc((100% / #{$el-tablet-small} -  #{$grid-inner-gutter--tablet} * (#{$el-tablet-small} - 1) / #{$el-tablet-small}) - 1px / #{$el-tablet-small});
+//     }
+
+//     @include mq('mobile') {
+//         width: calc((100% / #{$el-mobile} -  #{$grid-inner-gutter--mobile} * (#{$el-mobile} - 1) / #{$el-mobile}) - 1px / #{$el-mobile});
+//     }
+// }
+
 
 
 
