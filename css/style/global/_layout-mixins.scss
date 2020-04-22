@@ -9,7 +9,7 @@
   }
 
   @if (index($breakpoints, 'tablet') or $breakpoints == null) {
-    @include mq('tablet-small') {
+    @include mq('tablet') {
       padding-left: $grid-outer-gutter--tablet;
       padding-right: $grid-outer-gutter--tablet;
     }
@@ -50,13 +50,16 @@
 @function grid-el($cols, $breakpoint: 'mobile', $mod: false) {
   // base number of columns is 12
   $inner-gutter-value: get-inner-gutter($breakpoint);
+
   @if ($mod) {
     @return calc(((100% - #{$inner-gutter-value * ($base-cols - 1)}) / #{$base-cols} * #{$cols} + #{$inner-gutter-value * ($cols - 1)}) + #{$mod});
-    // @return calc((100% / #{$base-cols}) + #{$mod});
   } @else {
     @return calc((100% - #{$inner-gutter-value * ($base-cols - 1)}) / #{$base-cols} * #{$cols} + #{$inner-gutter-value * ($cols - 1)});
   }
 }
+
+//$no-of-els: $base-cols / $cols;
+//- #{$no-of-els * $inner-gutter-value / $base-cols}
 
 @mixin property-with-gutter($property, $breakpoints: null, $grid-gutter: 'outer') {
   @debug $grid-gutter;
@@ -89,7 +92,7 @@
   @if( $cols-mobile) {
     $inner-gutter: get-inner-gutter('mobile');
     $no-of-els: floor($base-cols / $cols-mobile);
-    width: grid-el($cols-mobile, $inner-gutter, -$no-of-els * $inner-gutter / $base-cols);
+    width: grid-el($cols-mobile, 'mobile');
     margin-right: $inner-gutter;
 
     &:nth-child(#{floor($base-cols / $cols-mobile)}n) {
@@ -101,7 +104,7 @@
       @include mq('tablet') {
         $inner-gutter: get-inner-gutter('tablet');
         $no-of-els: floor($base-cols / $cols-tablet);
-        width: grid-el($cols-tablet, $inner-gutter, -$no-of-els * $inner-gutter / $base-cols);
+        width: grid-el($cols-tablet, 'tablet');
         margin-right: $inner-gutter;
 
         &:nth-child(#{floor($base-cols / $cols-mobile)}n) {
@@ -118,7 +121,7 @@
     @include mq('desktop') {
       $inner-gutter: get-inner-gutter('desktop');
       $no-of-els: floor($base-cols / $cols-desktop);
-      width: grid-el($cols-desktop, $inner-gutter, -$no-of-els * $inner-gutter / $base-cols);
+      width: grid-el($cols-desktop, 'desktop');
       margin-right: $inner-gutter;
 
       &:nth-child(#{floor($base-cols / $cols-tablet)}n) {
